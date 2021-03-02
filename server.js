@@ -67,7 +67,6 @@ app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (reque
 
     if (!inputUrl.match(urlRegex)) {
         response.json({ error: 'Invalid URL' })
-        return
     }
 
     responseObject['original_url'] = inputUrl
