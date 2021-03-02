@@ -88,8 +88,9 @@ app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (reque
                     (error, savedUrl) => {
                         if (!error) {
                             responseObject['short_url'] = savedUrl.short
-
                             response.json(responseObject)
+                        } else {
+                            response.json({ error: 'invalid url' })
                         }
                     }
                 )
