@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 
 // Basic Configuration
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 app.use(cors());
 
