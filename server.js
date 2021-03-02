@@ -64,18 +64,18 @@ urlModel
             console.log(result, error, !error && result)
             shortCount = result.short + 1;
         }
-        // if (!error) {
-        //     urlModel.findOneAndUpdate({ original: requiredURL },
-        //         // sdkcm
-        //         { original: requiredURL, short: shortCount }, { new: true, upsert: true },
-        //         (error, savedUrl) => {
-        //             if (!error) {
-        //                 activePair["short_url"] = savedUrl.short;
-        //                 response.json(activePair);
-        //             }
-        //         }
-        //     )
-        // }
+        if (!error) {
+            urlModel.findOneAndUpdate({ original: requiredURL },
+                // sdkcm
+                { original: requiredURL, short: shortCount }, { new: true, upsert: true },
+                (error, savedUrl) => {
+                    if (!error) {
+                        activePair["short_url"] = savedUrl.short;
+                        response.json(activePair);
+                    }
+                }
+            )
+        }
     });
 
 app.listen(port, function() {
