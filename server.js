@@ -97,7 +97,7 @@ var app = express();
 var port = process.env.PORT || 3000;
 
 /** this project needs a db !! **/
-// mongoose.connect(process.env.DB_URI);
+// mongoose.connect(process.env.MONGO_URI);
 
 app.use(cors());
 
@@ -121,8 +121,21 @@ app.listen(port, function() {
 });
 
 /* Database Connection */
-let uri = 'mongodb+srv://user1:' + process.env.PW + '@freecodecamp.b0myq.mongodb.net/db1?retryWrites=true&w=majority'
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+// let uri = 'mongodb+srv://user1:' + process.env.PW + '@freecodecamp.b0myq.mongodb.net/db1?retryWrites=true&w=majority'
+// mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+}).then(() => {
+    console.log(`connection to database established`)
+}).catch(err => {
+    console.log(`db error ${err.message}`);
+    process.exit(-1)
+});
+
 
 let urlSchema = new mongoose.Schema({
     original: { type: String, required: true },
