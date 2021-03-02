@@ -63,7 +63,7 @@ let responseObject = {}
 app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (request, response) => {
     let inputUrl = request.body['url']
 
-    let urlRegex = new RegExp(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi);
+    let urlRegex = new RegExp(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi)
 
     if (!inputUrl.match(urlRegex)) {
         response.status(401).json({ error: 'invalid url' })
@@ -89,8 +89,6 @@ app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (reque
                         if (!error) {
                             responseObject['short_url'] = savedUrl.short
                             response.json(responseObject)
-                        } else {
-                            response.json({ error: 'invalid url' })
                         }
                     }
                 )
