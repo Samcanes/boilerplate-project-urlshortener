@@ -84,22 +84,31 @@ app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (reque
             if (!error && result != undefined) {
                 console.log(error, result)
                 inputShort = result.short + 1
-                response.json(responseObject)
             }
             if (!error) {
-                console.log(error, result)
-                Url.findOneAndUpdate({ original: inputUrl }, { original: inputUrl, short: inputShort }, { new: true, upsert: true },
-                    (error, savedUrl) => {
-                        console.log(error, savedUrl)
+                Url.findOne({ original: inputUrl })
+                    .exec((error, result) => {
                         if (!error) {
-                            responseObject['short_url'] = savedUrl.short
-                            response.json(responseObject)
+                            console.log(error, result)
+                            if (result == null) {
+                                Url.findOneAndUpdate({ original: inputUrl }, { original: inputUrl, short: inputShort }, { new: true, upsert: true },
+                                    (error, savedUrl) => {
+                                        console.log(error, savedUrl)
+                                        if (!error) {
+                                            responseObject['short_url'] = savedUrl.short;
+                                            console.log("....................")
+                                            console.log(responseObject)
+                                            response.json(responseObject)
+                                        }
+                                    }
+                                )
+                            }
+                            console.log("--------------------------")
+                            response.json(result)
                         }
-                    }
-                )
+                    })
             }
         })
-
 })
 
 app.get('/api/shorturl/:input', (request, response) => {
