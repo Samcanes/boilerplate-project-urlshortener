@@ -109,7 +109,10 @@ app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (reque
                             }
                         }
                         console.log("--------------------------");
-                        response.json(result)
+                        response.json({
+                            original: result.original,
+                            short: result.short
+                        })
                     })
             }
         })
