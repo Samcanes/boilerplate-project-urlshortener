@@ -75,7 +75,7 @@ app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (reque
         return
     }
 
-    responseObject['original_url '] = inputUrl
+    responseObject['original'] = inputUrl
 
     let inputShort = 1
     Url.findOne({})
@@ -87,13 +87,13 @@ app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (reque
                 inputShort = result.short + 1
             }
             if (!error) {
-                Url.findOne({ original_url: inputUrl })
+                Url.findOne({ original: inputUrl })
                     .exec((error, result) => {
                         if (!error) {
                             console.log(error, result)
                             if (result == null) {
                                 console.log("hello there")
-                                responseObject['short_url'] = inputShort;
+                                responseObject['short'] = inputShort;
                                 console.log(responseObject)
 
                                 var passedObj = new Url(responseObject);
@@ -110,8 +110,8 @@ app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (reque
                         }
                         console.log("--------------------------");
                         response.json({
-                            original_url: result.original,
-                            short_url: result.short
+                            original: result.original,
+                            short: result.short
                         })
                     })
             }
