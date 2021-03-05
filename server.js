@@ -59,8 +59,9 @@ let urlSchema = new mongoose.Schema({
 })
 
 let Url = mongoose.model('Url', urlSchema)
-
 let bodyParser = require('body-parser')
+
+
 let responseObject = {}
 app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (request, response) => {
     let inputUrl = request.body['url']
@@ -74,7 +75,7 @@ app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (reque
         return
     }
 
-    responseObject['original_url'] = inputUrl
+    responseObject['original'] = inputUrl
 
     let inputShort = 1
     Url.findOne({})
@@ -91,21 +92,24 @@ app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (reque
                         if (!error) {
                             console.log(error, result)
                             if (result == null) {
-                                Url.findOneAndUpdate({ original: inputUrl }, { original: inputUrl, short: inputShort }, { new: true, upsert: true },
-                                    (error, savedUrl) => {
-                                        console.log(error, savedUrl)
-                                        if (!error) {
-                                            responseObject['short_url'] = savedUrl.short;
-                                            console.log("....................")
-                                            console.log(responseObject)
-                                            response.json(responseObject)
-                                        }
-                                    }
-                                )
+                                console.log("hello there")
+                                responseObject['short'] = inputShort;
+                                console.log(responseObject)
+
+                                var passedObj = new Url(responseObject);
+
+                                passedObj.save(function(err) {
+                                    console.log(err)
+                                    if (err) return handleError(err);
+                                    console.log("new url entered to DB")
+                                });
+
+                                response.json(responseObject)
+                                return
                             }
-                            console.log("--------------------------")
-                            response.json(result)
                         }
+                        console.log("--------------------------");
+                        response.json(result)
                     })
             }
         })
