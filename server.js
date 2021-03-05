@@ -76,7 +76,7 @@ app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (reque
         return
     }
 
-    responseObject['original'] = inputUrl
+    responseObject['original_url'] = inputUrl
 
     let inputShort = 1
     Url.findOne({})
@@ -98,6 +98,7 @@ app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (reque
                                 console.log(responseObject)
 
                                 var passedObj = new Url(responseObject);
+
                                 passedObj.save(function(err) {
                                     console.log(err)
                                     if (err) return handleError(err);
