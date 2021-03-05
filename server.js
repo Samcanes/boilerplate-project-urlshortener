@@ -75,7 +75,7 @@ app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (reque
         return
     }
 
-    responseObject['original'] = inputUrl
+    responseObject['original_url'] = inputUrl
 
     let inputShort = 1
     Url.findOne({})
@@ -110,8 +110,8 @@ app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (reque
                         }
                         console.log("--------------------------");
                         response.json({
-                            original: result.original,
-                            short: result.short
+                            original_url: result.original,
+                            short_url: result.short
                         })
                     })
             }
