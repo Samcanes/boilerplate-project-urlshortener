@@ -71,6 +71,7 @@ app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (reque
     let urlRegex = new RegExp(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi)
 
     if (!inputUrl.match(urlRegex)) {
+        console.log("Checked URL")
         response.json({ error: 'invalid url' })
         return
     }
