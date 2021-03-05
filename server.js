@@ -163,14 +163,14 @@ app.get("/test", function(req, res) {
 })
 
 app.route("/api/shorturl/new", function(req, res) {
-    let url = req.query.url
+    let url = req.query['url']
 })
 
 
 
 
 app.post('/api/shorturl/new', (req, res, next) => {
-    const originalURL = req.body.url;
+    const originalURL = req.body['url'];
 
     const httpRegex = /^(http|https)(:\/\/)/;
     if (!httpRegex.test(originalURL)) { return res.json({ error: 'invalid url' }) }
