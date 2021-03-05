@@ -54,8 +54,8 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Creating the URL model
 let urlSchema = new mongoose.Schema({
-    original: { type: String, required: true },
-    short: Number
+    original_url: { type: String, required: true },
+    short_url: Number
 })
 
 let Url = mongoose.model('Url', urlSchema)
@@ -75,25 +75,26 @@ app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (reque
         return
     }
 
-    responseObject['original'] = inputUrl
+    responseObject['original_url'] = inputUrl
 
     let inputShort = 1
     Url.findOne({})
-        .sort({ short: 'desc' })
+        .sort({ short_url: 'desc' })
         .exec((error, result) => {
+
             console.log(error, result)
             if (!error && result != undefined) {
                 console.log(error, result)
-                inputShort = result.short + 1
+                inputShort = result.short_url + 1
             }
             if (!error) {
-                Url.findOne({ original: inputUrl })
+                Url.findOne({ original_url: inputUrl })
                     .exec((error, result) => {
                         if (!error) {
                             console.log(error, result)
                             if (result == null) {
                                 console.log("hello there")
-                                responseObject['short'] = inputShort;
+                                responseObject['short_url'] = inputShort;
                                 console.log(responseObject)
 
                                 var passedObj = new Url(responseObject);
@@ -110,8 +111,8 @@ app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (reque
                         }
                         console.log("--------------------------");
                         response.json({
-                            original: result.original,
-                            short: result.short
+                            original_url: result.original_url,
+                            short: result.short_url
                         })
                     })
             }
@@ -121,9 +122,9 @@ app.post('/api/shorturl/new', bodyParser.urlencoded({ extended: false }), (reque
 app.get('/api/shorturl/:input', (request, response) => {
     let input = request.params.input
 
-    Url.findOne({ short: input }, (error, result) => {
+    Url.findOne({ short_url: input }, (error, result) => {
         if (!error && result != undefined) {
-            response.redirect(result.original)
+            response.redirect(result.original_url)
         } else {
             response.json({ error: 'Invalid URL' })
         }
